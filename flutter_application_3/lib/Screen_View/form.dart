@@ -83,7 +83,7 @@ class _FormViewState extends State<FormView> {
                 controller: cantidadConcentradoController,
                 obscureText: false,
                 validator: (value) => value!.isEmpty
-                    ? "Ingrese la cantidad de concentrado que consume"
+                    ? "Ingrese el Valor Unitario"
                     : null,
                 keyboardType: TextInputType.number),
             const SizedBox(height: 10),
@@ -92,7 +92,7 @@ class _FormViewState extends State<FormView> {
                 controller: cantidadBultosController,
                 obscureText: false,
                 validator: (value) => value!.isEmpty
-                    ? "Ingrese la cantidad de bultos de concentrado"
+                    ? "Ingrese la Cantidad de Productos valida"
                     : null,
                 keyboardType: TextInputType.number),
             const SizedBox(height: 10),
