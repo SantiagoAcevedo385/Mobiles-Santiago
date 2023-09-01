@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_2/screen_views/home_screen.dart';
-import 'package:flutter_application_2/screen_views/list_view.dart';
+import 'package:flutter_application_2/Theme/theme.dart';
+import 'package:flutter_application_2/home_screen/insumos.dart';
+import 'package:flutter_application_2/home_screen/lista.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MainApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyList()
+      theme: AppTheme.lightTheme,
+      home: const MyList()
     );
-    
   }
 }
-
