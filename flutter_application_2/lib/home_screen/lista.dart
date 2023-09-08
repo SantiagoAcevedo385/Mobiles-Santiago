@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/home_screen/insumos.dart';
+import 'package:flutter_application_2/home_screen/productoPut.dart';
+import 'package:flutter_application_2/home_screen/productos.dart';
 
 
 
@@ -42,6 +44,31 @@ class _MyListState extends State<MyList> {
             Navigator.push(context, route);
           },
         ),
+        ListTile(
+          title: const Text('Crear un Producto'),
+          trailing: const Icon(Icons.water_drop_outlined),
+           onTap: (){
+            final route = MaterialPageRoute(builder: (context)=> const CrearProducto());
+            Navigator.push(context, route);
+          },
+        ),
+        ListTile(
+          title: const Text('Lista de Productos'),
+          trailing: const Icon(Icons.water_drop_outlined),
+           onTap: (){
+            final route = MaterialPageRoute(builder: (context)=> const ProductosList());
+            Navigator.push(context, route);
+          },
+        ),
+        ListTile(
+          title: const Text('Editar producto'),
+          trailing: const Icon(Icons.water_drop_outlined),
+           onTap: (){
+            final route = MaterialPageRoute(builder: (context)=> const EditarProducto());
+            Navigator.push(context, route);
+          },
+        ),
+        
         //  ListTile(
         //   title: const Text('Calcular Calorías'),
         //   trailing: const Icon(Icons.water_drop_outlined),

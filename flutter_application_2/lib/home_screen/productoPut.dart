@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 
 //https://frontendhbs.onrender.com/
 Future<Album> createAlbum(String name, String valorU, String insumo,
-    String stockMin, String stockMax, String descripcion) async {
-  final response = await http.post(
+    String stockMin, String stockMax,String descripcion) async {
+  final response = await http.put(
     Uri.parse('https://coff-v-art-api.onrender.com/api/product'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
@@ -50,7 +50,7 @@ class Album {
       required this.valorU,
       required this.insumo,
       required this.stockMin,
-      required this.stockMax,
+      required this.stockMax, 
       required this.descripcion});
 
   factory Album.fromJson(Map<String, dynamic> json) {
@@ -60,21 +60,21 @@ class Album {
         valorU: json['valorU'],
         insumo: json['insumo'],
         stockMin: json['stockMin'],
-        stockMax: json['stockMax'],
+        stockMax: json['stockMax'], 
         descripcion: json['descripcion']);
   }
 }
 
-class CrearProducto extends StatefulWidget {
-  const CrearProducto({super.key});
+class EditarProducto extends StatefulWidget {
+  const EditarProducto({super.key});
 
   @override
-  State<CrearProducto> createState() {
-    return _CrearProductoState();
+  State<EditarProducto> createState() {
+    return _EditarProductoState();
   }
 }
 
-class _CrearProductoState extends State<CrearProducto> {
+class _EditarProductoState extends State<EditarProducto> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _valorU = TextEditingController();
   final TextEditingController _insumo = TextEditingController();
@@ -86,15 +86,15 @@ class _CrearProductoState extends State<CrearProducto> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Crear Producto'),
-      ),
-      body: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.all(8),
-        child: (_futureAlbum == null) ? buildColumn() : buildFutureBuilder(),
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Crear Producto'),
+        ),
+        body: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(8),
+          child: (_futureAlbum == null) ? buildColumn() : buildFutureBuilder(),
+        ),
+      );
   }
 
   Column buildColumn() {
@@ -110,7 +110,7 @@ class _CrearProductoState extends State<CrearProducto> {
           keyboardType: TextInputType.text,
         ),
         const SizedBox(height: 10),
-        InputCampo(
+         InputCampo(
           label: "Valor Unitario del producto: ",
           controller: _valorU,
           obscureText: false,
@@ -119,7 +119,7 @@ class _CrearProductoState extends State<CrearProducto> {
           keyboardType: TextInputType.number,
         ),
         const SizedBox(height: 10),
-        InputCampo(
+       InputCampo(
           label: "Insumo asociado al producto: ",
           controller: _insumo,
           obscureText: false,
@@ -145,7 +145,7 @@ class _CrearProductoState extends State<CrearProducto> {
           keyboardType: TextInputType.number,
         ),
         const SizedBox(height: 10),
-        InputCampo(
+         InputCampo(
           label: "Descripción del Producto: ",
           controller: _descripcion,
           obscureText: false,
@@ -157,8 +157,8 @@ class _CrearProductoState extends State<CrearProducto> {
         ElevatedButton(
           onPressed: () {
             setState(() {
-              _futureAlbum = createAlbum(_name.text, _valorU.text, _insumo.text,
-                  _stockMin.text, _stockMax.text, _descripcion.text);
+              _futureAlbum = createAlbum(_name.text, _valorU.text,
+                  _insumo.text, _stockMin.text, _stockMax.text, _descripcion.text);
             });
           },
           child: const Text('Crear Producto'),
@@ -179,104 +179,6 @@ class _CrearProductoState extends State<CrearProducto> {
 
         return const CircularProgressIndicator();
       },
-    );
-  }
-}
-
-class ProductosList extends StatefulWidget {
-  const ProductosList({super.key});
-
-  @override
-  State<ProductosList> createState() => _ProductosListState();
-}
-
-class _ProductosListState extends State<ProductosList> {
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _getData();
-  }
-
-  DataModel? _dataModel;
-  _getData() async {
-    try {
-      String url = 'https://coff-v-art-api.onrender.com/api/product';
-      http.Response res = await http.get(Uri.parse(url));
-      if (res.statusCode == 200) {
-        _dataModel = DataModel.fromJson(json.decode(res.body));
-        _isLoading = false;
-        setState(() {});
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Center(child: Text('Lista Producto'))),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _dataModel!.products.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(_dataModel!.products[index].name),
-                        Text(_dataModel!.products[index].valorU),
-                        Text(_dataModel!.products[index].insumo),
-                        Text(_dataModel!.products[index].stockMin),
-                        Text(_dataModel!.products[index].stockMax),
-                        Text(_dataModel!.products[index].descripcion),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit), // Icono 1
-                              onPressed: () {
-                                // Acción para redireccionar a vista 1
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete), // Icono 2
-                              onPressed: () {
-                                // Acción para redireccionar a vista 2
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () {
-                // Acción para redireccionar a CrearProducto
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const CrearProducto(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
